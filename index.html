@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>语言检测跳转页面</title>
+    <script>
+        // 页面加载完成后执行的函数
+        window.onload = function() {
+            // 获取浏览器首选语言
+            var userLang = navigator.language || navigator.userLanguage;
+            
+            // 检查是否为中文用户，这里简化处理，仅检查语言代码是否以"zh"开头
+            if (userLang.toLowerCase().startsWith('zh')) {
+                // 是中文用户，跳转到链接A
+                window.location.href = "../zh-cn/";
+            } else {
+                // 不是中文用户，跳转到链接B
+                window.location.href = "../en-us/";
+            }
+        };
+    </script>
+</head>
+<body>
+    <!-- 由于脚本会立即执行跳转，此处的正文内容实际上用户是看不到的 -->
+    <p>正在检测您的语言环境，请稍候...</p>
+</body>
+</html>
