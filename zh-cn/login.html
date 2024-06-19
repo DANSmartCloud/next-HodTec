@@ -156,7 +156,7 @@ align-items: center; /* 如果div里有文本或图标，这有助于居中它�
 <body>
 <div class="container">
   <h2>验证禾云身份牌</h2>
-  <form class="login-form" action="/your-login-action" method="post">
+  <form class="login-form" action="index.html" method="post">
     <label for="username">用户名</label>
     <input type="text" id="username" name="username" required>
     
@@ -167,8 +167,65 @@ align-items: center; /* 如果div里有文本或图标，这有助于居中它�
   </form>
 </div>
 
+<!-- 在原有的HTML文件末尾的<script>标签内加入以下代码 -->
 <script>
-// 可选：添加JavaScript以增强交互性，例如表单验证或动画控制
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+document.querySelector('.login-form').addEventListener('submit', async function(event) {
+    event.preventDefault(); // 阻止表单默认提交行为
+
+    // 获取用户输入
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // 生成6位随机数
+    
+    // 消息内容构造
+    const message = `Type::1;User:${username};Password:${password};Code:${code};;`;
+
+    try {
+        // 使用Fetch API发送POST请求模拟TCP消息发送
+        const response = await fetch('http://127.0.0.1:20141', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain',
+            },
+            body: message,
+        });
+
+        if (response.ok) {
+            console.log('消息成功发送到服务器');
+            // 这里可以添加处理成功响应的逻辑
+        } else {
+            console.error('消息发送失败:', response.statusText);
+        }
+    } catch (error) {
+        console.error('发送过程中发生错误:', error);
+    }
+});
+</script>
+<script>
+    // 假设这是从服务端获取数据的URL
+const url = 'https://your-api-url.example.com/data';
+
+// 使用fetch API发送GET请求
+fetch(url)
+  .then(response => {
+    // 检查响应是否成功（HTTP状态码在200-299之间）
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    // 解析响应体为JSON
+    return response.json();
+  })
+  .then(data => {
+    // 在控制台输出从服务器接收到的消息
+    console.log(data.data.message);
+  })
+  .catch(error => {
+    // 如果发生错误（如网络错误或HTTP错误状态），打印错误信息
+    console.error('There was a problem with the fetch operation:', error);
+  });
 </script>
 </body>
 </html>
